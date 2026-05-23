@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube | Mr.SelfDecode</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Sora:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS Variables & Color Palette --- */
+        :root {
+            --bg-main: #050816;
+            --bg-sec: #0B1023;
+            --text-pri: #F5F7FF;
+            --text-sec: #AAB2D5;
+            --neon-purple: #8B5CF6;
+            --electric-blue: #3B82F6;
+            --cyan-accent: #22D3EE;
+            
+            --font-head: 'Space Grotesk', sans-serif;
+            --font-body: 'Poppins', sans-serif;
+            --font-ui: 'Sora', sans-serif;
+            
+            --glass-bg: rgba(11, 16, 35, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --glass-glow: 0 8px 32px 0 rgba(139, 92, 246, 0.15);
+        }
+
+        /* --- Global Reset & Basics --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-pri);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+            background: radial-gradient(circle at 50% 0%, #0B1023 0%, #050816 100%);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-head);
+            color: var(--text-pri);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- Typography & Utilities --- */
+        .gradient-text {
+            background: linear-gradient(to right, var(--cyan-accent), var(--neon-purple), var(--electric-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header {
+            padding-top: 150px;
+            padding-bottom: 50px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-sec);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        section {
+            padding: 50px 5% 100px;
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* --- Mouse Glow Effect --- */
+        #cursor-glow {
+            position: fixed;
+            top: 0; left: 0;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: top 0.1s ease-out, left 0.1s ease-out;
+        }
+
+        /* --- Navbar --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(5, 8, 22, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--cyan-accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-family: var(--font-ui);
+            font-size: 0.95rem;
+        }
+
+        .nav-links a {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active-link {
+            color: var(--cyan-accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 2px;
+            bottom: -5px; left: 0;
+            background: var(--neon-purple);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after, .nav-links a.active-link::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-pri);
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            font-family: var(--font-ui);
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-yt {
+            background: #FF0000;
+            border: none;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+            padding: 15px 35px;
+            font-size: 1.1rem;
+        }
+
+        .btn-yt:hover {
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* --- Glassmorphism Card Style --- */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+        }
+
+        /* --- Dashboard Stats --- */
+        .yt-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-box {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .stat-info h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .stat-info p {
+            color: var(--text-sec);
+            font-size: 0.9rem;
+            font-family: var(--font-ui);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- Featured Video --- */
+        .featured-video {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            group: hover;
+        }
+
+        .featured-video img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .featured-video:hover img {
+            opacity: 0.4;
+            transform: scale(1.02);
+        }
+
+        .play-overlay {
+            position: relative;
+            z-index: 2;
+            font-size: 5rem;
+            color: var(--text-pri);
+            filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));
+            transition: transform 0.3s ease, color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .featured-video:hover .play-overlay {
+            transform: scale(1.1);
+            color: #FF0000;
+        }
+
+        /* --- Video Grid --- */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .vid-card {
+            background: rgba(11, 16, 35, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .vid-card:hover {
+            border-color: var(--cyan-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(34, 211, 238, 0.1);
+        }
+
+        .vid-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #111;
+            position: relative;
+        }
+
+        .vid-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .vid-card:hover .vid-thumb img {
+            opacity: 1;
+        }
+
+        .vid-duration {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-family: var(--font-ui);
+            font-weight: 600;
+        }
+
+        .vid-info {
+            padding: 1.2rem;
+        }
+
+        .vid-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .vid-meta {
+            color: var(--text-sec);
+            font-size: 0.85rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 3rem 5%;
+            background: #02040a;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-sec);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--neon-purple);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            color: var(--text-sec);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* --- Animations & Utilities --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Media Queries --- */
+        @media (max-width: 992px) {
+            .yt-dashboard { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                flex-direction: column;
+                background: var(--bg-main);
+                align-items: center;
+                justify-content: center;
+                transition: 0.4s ease;
+            }
+            .nav-links.active { right: 0; }
+            .menu-toggle { display: block; }
+            .page-header { padding-top: 120px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Glow / Mouse Effect -->
+    <div id="cursor-glow"></div>
+
+    <!-- Header / Navbar -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-brain"></i>
+            <span>Mr.Self<span class="gradient-text">Decode</span></span>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="youtube.html" class="active-link">YouTube</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header reveal">
+        <h1 class="page-title">Creator <span class="gradient-text">Transmissions</span></h1>
+        <p class="page-subtitle">Free, high-signal psychological breakdowns and self-improvement systems broadcasted directly to you.</p>
+    </div>
+
+    <section style="padding-top: 0;">
+        <!-- YouTube Dashboard -->
+        <div class="yt-dashboard reveal">
+            <!-- Stats Column -->
+            <div class="glass-card" style="display: flex; flex-direction: column; justify-content: center;">
+                <h3 style="margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem;">Network Metrics</h3>
+                
+                <div class="stat-box">
+                    <div class="stat-icon" style="color: #FF0000;"><i class="fa-brands fa-youtube"></i></div>
+                    <div class="stat-info">
+                        <h4>500K+</h4>
+                        <p>Subscribers</p>
+                    </div>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-icon" style="color: var(--cyan-accent);"><i class="fa-solid fa-eye"></i></div>
+                    <div class="stat-info">
+                        <h4>12.4M</h4>
+                        <p>Total Views</p>
+                    </div>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-icon" style="color: var(--neon-purple);"><i class="fa-solid fa-layer-group"></i></div>
+                    <div class="stat-info">
+                        <h4>142</h4>
+                        <p>Systems Uploaded</p>
+                    </div>
+                </div>
+
+                <a href="#" class="btn btn-yt" style="margin-top: 1rem; justify-content: center;">
+                    <i class="fa-brands fa-youtube"></i> Subscribe to Channel
+                </a>
+            </div>
+
+            <!-- Featured Video Column -->
+            <div class="glass-card" style="padding: 1.5rem;">
+                <h3 style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                    <span>Latest Upload</span>
+                    <span style="font-size: 0.8rem; background: rgba(255,0,0,0.2); color: #ff4444; padding: 4px 10px; border-radius: 20px; font-family: var(--font-ui);">NEW</span>
+                </h3>
+                <div class="featured-video">
+                    <!-- Placeholder image for the video thumbnail -->
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80" alt="Latest Video Thumbnail">
+                    <i class="fa-solid fa-circle-play play-overlay"></i>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <h2 style="font-size: 1.4rem;">How to Build Unbreakable Discipline (Neuroscience Explained)</h2>
+                    <p style="color: var(--text-sec); font-size: 0.95rem; margin-top: 0.5rem;">A complete breakdown of the Discipline Engine. Learn how to rewire your basal ganglia to automate hard tasks and destroy procrastination permanently.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Videos Grid -->
+        <div class="section-header reveal">
+            <h2>Recent <span class="gradient-text">Uploads</span></h2>
+            <a href="#" style="color: var(--cyan-accent); font-family: var(--font-ui); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">View All on YouTube <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="video-grid reveal">
+            <!-- Video 1 -->
+            <div class="vid-card">
+                <div class="vid-thumb">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80" alt="Thumbnail 1">
+                    <span class="vid-duration">14:20</span>
+                </div>
+                <div class="vid-info">
+                    <h3 class="vid-title">Dopamine Detox V2.0: Reset Your Brain in 7 Days</h3>
+                    <div class="vid-meta">
+                        <span>245K views</span>
+                        <span>•</span>
+                        <span>1 week ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="vid-card">
+                <div class="vid-thumb">
+                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80" alt="Thumbnail 2">
+                    <span class="vid-duration">22:15</span>
+                </div>
+                <div class="vid-info">
+                    <h3 class="vid-title">The Focus Matrix: How I Work 12 Hours a Day Effortlessly</h3>
+                    <div class="vid-meta">
+                        <span>512K views</span>
+                        <span>•</span>
+                        <span>3 weeks ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 3 -->
+            <div class="vid-card">
+                <div class="vid-thumb">
+                    <img src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=600&q=80" alt="Thumbnail 3">
+                    <span class="vid-duration">18:05</span>
+                </div>
+                <div class="vid-info">
+                    <h3 class="vid-title">Why You Procrastinate (And The Psychological Fix)</h3>
+                    <div class="vid-meta">
+                        <span>890K views</span>
+                        <span>•</span>
+                        <span>1 month ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 4 -->
+            <div class="vid-card">
+                <div class="vid-thumb">
+                    <img src="https://images.unsplash.com/photo-1614064641913-a538222ebdf2?auto=format&fit=crop&w=600&q=80" alt="Thumbnail 4">
+                    <span class="vid-duration">11:45</span>
+                </div>
+                <div class="vid-info">
+                    <h3 class="vid-title">The Creator Mindset: Scaling to $10k/Month</h3>
+                    <div class="vid-meta">
+                        <span>1.2M views</span>
+                        <span>•</span>
+                        <span>2 months ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="logo" style="font-size: 2rem;">
+            <i class="fa-solid fa-brain"></i>
+            <span>Mr.Self<span class="gradient-text">Decode</span></span>
+        </div>
+        <div class="social-links">
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-discord"></i></a>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Mr.SelfDecode by Ajaz Ahmad. All systems operational.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            let icon = menuToggle.querySelector('i');
+            if(navLinks.classList.contains('active')){
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Mouse Glow Effect (Desktop Only)
+        if(window.innerWidth > 768) {
+            const glow = document.getElementById('cursor-glow');
+            window.addEventListener('mousemove', (e) => {
+                glow.style.top = e.clientY + 'px';
+                glow.style.left = e.clientX + 'px';
+            });
+        } else {
+            document.getElementById('cursor-glow').style.display = 'none';
+        }
+
+        // Scroll Reveal Animations
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 50;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger on load
+    </script>
+</body>
+</html>
