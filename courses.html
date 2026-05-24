@@ -203,6 +203,28 @@
             transform: translateY(-2px);
         }
 
+
+        /* --- No courses available massage--- */
+.no-courses{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:80px 20px;
+    color:#8b8b9a;
+}
+
+.no-courses i{
+    font-size:60px;
+    margin-bottom:20px;
+    opacity:0.7;
+}
+
+.no-courses p{
+    font-size:18px;
+    letter-spacing:0.5px;
+}
+
         /* --- Courses Grid Section --- */
         .courses-grid {
             display: grid;
@@ -383,10 +405,16 @@
     <!-- Page Header -->
     <div class="page-header reveal">
         <h1 class="page-title">Cou<span class="gradient-text">rses</span></h1>
-        <p class="page-subtitle">Most people already know what they should do.
+        <p class="page-subtitle" style="display:none;>Most people already know what they should do.
 The real challenge is doing it consistently.
 These courses are designed to help you build focus, discipline, clarity, and self-control in real life.</p>
     </div>
+ <!-- No courses available massage-->
+<div class="no-courses">
+    <i class="fa-solid fa-book-open"></i>
+    <p>No courses available now</p>
+</div>
+
 
     <!-- Full Courses Catalog Section -->
     <section style="display:none; >
