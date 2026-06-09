@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.SelfDecode | Upgrade Your Life</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Sora:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS Variables & Color Palette --- */
+        :root {
+            --bg-main: #050816;
+            --bg-sec: #0B1023;
+            --text-pri: #F5F7FF;
+            --text-sec: #AAB2D5;
+            --neon-purple: #8B5CF6;
+            --electric-blue: #3B82F6;
+            --cyan-accent: #22D3EE;
+            
+            --font-head: 'Space Grotesk', sans-serif;
+            --font-body: 'Poppins', sans-serif;
+            --font-ui: 'Sora', sans-serif;
+            
+            --glass-bg: rgba(11, 16, 35, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --glass-glow: 0 8px 32px 0 rgba(139, 92, 246, 0.15);
+            --glow-purple: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+
+        /* --- Global Reset & Basics --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-pri);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-head);
+            color: var(--text-pri);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- Typography & Utilities --- */
+        .gradient-text {
+            background: linear-gradient(to right, var(--cyan-accent), var(--neon-purple), var(--electric-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, var(--neon-purple), var(--cyan-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-sec);
+            margin-bottom: 4rem;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-inline: auto;
+        }
+
+        section {
+            padding: 100px 5%;
+            position: relative;
+        }
+
+        /* --- Mouse Glow Effect --- */
+        #cursor-glow {
+            position: fixed;
+            top: 0; left: 0;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: top 0.1s ease-out, left 0.1s ease-out;
+        }
+
+        /* --- Navbar --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(5, 8, 22, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--cyan-accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-family: var(--font-ui);
+            font-size: 0.95rem;
+        }
+
+        .nav-links a {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active-link {
+            color: var(--cyan-accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 2px;
+            bottom: -5px; left: 0;
+            background: var(--neon-purple);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after, .nav-links a.active-link::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-pri);
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            font-family: var(--font-ui);
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--neon-purple), var(--electric-blue));
+            border: none;
+            color: #fff;
+            box-shadow: var(--glow-purple);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.7);
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-pri);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--cyan-accent);
+            color: var(--text-pri);
+            background: rgba(34, 211, 238, 0.05);
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.2);
+        }
+
+        /* --- PREMIUM HERO SECTION LAYOUT --- */
+        /* --- OPTIMIZED HERO SECTION LAYOUT --- */
+.hero {
+    min-height: auto; 
+    display: flex;
+    align-items: center;
+    padding: clamp(120px, 12vh, 160px) 5% clamp(60px, 8vh, 100px) 5%;
+    background: radial-gradient(circle at 50% 50%, #0B1023 0%, #050816 100%);
+}
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-welcome {
+            font-family: var(--font-ui);
+            color: var(--neon-purple);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            text-shadow: 0 0 40px rgba(139, 92, 246, 0.2);
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-sec);
+            margin-bottom: 36px;
+            max-width: 540px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .hero-stats-mini {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .avatar-group {
+            display: flex;
+        }
+
+        .avatar-group img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--bg-main);
+            margin-left: -12px;
+        }
+
+        .avatar-group img:first-child {
+            margin-left: 0;
+        }
+
+        .mini-stat-text p {
+            font-size: 0.9rem;
+            color: var(--text-sec);
+        }
+
+        .mini-stat-text strong {
+            color: var(--text-pri);
+            font-family: var(--font-head);
+        }
+
+        /* Futuristic Orb Graphic */
+        .hero-graphic {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-orb-container {
+            position: relative;
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            background: rgba(11, 16, 35, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 30px rgba(139, 92, 246, 0.1);
+        }
+
+        .orb-glow-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px dashed rgba(139, 92, 246, 0.3);
+            animation: spin 40s linear infinite;
+        }
+
+        .orb-glow-layer-reverse {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            border: 1px dashed rgba(34, 211, 238, 0.2);
+            animation: spin-reverse 25s linear infinite;
+        }
+
+        .center-brand-logo-img-container {
+            width: 82%;
+            height: 82%;
+            border-radius: 50%;
+            background: var(--bg-main);
+            border: 2px solid rgba(139, 92, 246, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--glow-purple), inset 0 0 20px rgba(59, 130, 246, 0.3);
+            overflow: hidden;
+        }
+
+        .center-brand-logo-img-container img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .center-brand-logo-img-container:hover img {
+            transform: scale(1.05);
+        }
+
+        /* --- Glassmorphism Card Style --- */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(139, 92, 246, 0.5);
+            box-shadow: var(--glass-glow);
+            transform: translateY(-5px);
+        }
+
+        /* --- Features Section --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--neon-purple);
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.4));
+        }
+
+        /* --- Testimonials --- */
+        .testimo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimo-card {
+            border-top: 2px solid var(--electric-blue);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .avatar {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: var(--glass-border);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* --- Newsletter --- */
+        .newsletter {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            border-radius: 20px;
+            background: linear-gradient(180deg, rgba(11, 16, 35, 0.8) 0%, rgba(5, 8, 22, 1) 100%);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 50px rgba(34, 211, 238, 0.05);
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .newsletter-form input {
+            flex-grow: 1;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.02);
+            color: var(--text-pri);
+            font-family: var(--font-body);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form input:focus {
+            border-color: var(--cyan-accent);
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 3rem 5%;
+            background: #02040a;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-sec);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--neon-purple);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            color: var(--text-sec);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* --- Animations & Utilities --- */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Media Queries --- */
+        @media (max-width: 1024px) {
+            .hero-grid { gap: 40px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                flex-direction: column;
+                background: var(--bg-main);
+                align-items: center;
+                justify-content: center;
+                transition: 0.4s ease;
+            }
+            .nav-links.active { right: 0; }
+            .menu-toggle { display: block; }
+            
+            .hero { padding-top: 140px; }
+            .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 50px; }
+            .hero-desc { margin: 0 auto 36px auto; }
+            .hero-btns { justify-content: center; flex-direction: column; }
+            .hero-stats-mini { justify-content: center; }
+            
+            .newsletter-form { flex-direction: column; }
+            section { padding: 60px 5%; }
+        }
+
+        @media (max-width: 480px) {
+            .main-orb-container { width: 280px; height: 280px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor-glow"></div>
+
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-brain"></i>
+            <span>Mr.Self<span class="gradient-text">Decode</span></span>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active-link">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="youtube.html">YouTube</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-grid reveal">
+            <div class="hero-content">
+                <span class="hero-welcome">Welcome to Mr.SelfDecode</span>
+                <h1 class="hero-title">Decode Yourself.<br><span class="highlight">Upgrade Your Life.</span></h1>
+                <p class="hero-desc">Mr.SelfDecode is your premium personal growth ecosystem where advanced mind psychology, elite productivity frameworks, and modern technology meet to build your ultimate version.</p>
+                <div class="hero-btns">
+                    <a href="courses.html" class="btn btn-primary">Explore Courses <i class="fa-solid fa-bolt"></i></a>
+                    <a href="youtube.html" class="btn btn-secondary">Watch on YouTube <i class="fa-brands fa-youtube"></i></a>
+                </div>
+                <div class="hero-stats-mini">
+                    <div class="avatar-group">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=60" alt="Student">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=60" alt="Student">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=60" alt="Student">
+                    </div>
+                    <div class="mini-stat-text">
+                        <p><strong>10K+ Members</strong> Transforming Their Lives</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-graphic">
+                <div class="main-orb-container">
+                    <div class="orb-glow-layer"></div>
+                    <div class="orb-glow-layer-reverse"></div>
+                    <div class="center-brand-logo-img-container">
+                        <img src="logo.jpg" alt="Mr.SelfDecode Branding">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title reveal">What You'll  <span class="gradient-text">Learn</span></h2>
+        <p class="section-subtitle reveal">Simple ideas and practical lessons to help you improve step by step.</p>
+        
+        <div class="features-grid reveal">
+            <div class="glass-card feature-card">
+                <i class="fa-solid fa-brain"></i>
+                <h3>Mindset Improvement</h3>
+                <p style="color: var(--text-sec); font-size: 0.9rem; margin-top: 0.5rem;">Learn how to build better habits, focus, and a stronger mindset.</p>
+            </div>
+            <div class="glass-card feature-card">
+                <i class="fa-solid fa-battery-full"></i>
+                <h3>Focus & Discipline</h3>
+                <p style="color: var(--text-sec); font-size: 0.9rem; margin-top: 0.5rem;">Understand distractions and learn how to stay focused on important goals.</p>
+            </div>
+            <div class="glass-card feature-card">
+                <i class="fa-solid fa-chart-line"></i>
+                <h3>Productivity</h3>
+                <p style="color: var(--text-sec); font-size: 0.9rem; margin-top: 0.5rem;">Simple strategies to manage time, stay consistent, and improve daily performance.</p>
+            </div>
+        </div>
+    </section>
+
+     <section>
+        <h2 class="section-title reveal">Community  <span class="gradient-text">Feedback</span></h2>
+        <p class="section-subtitle reveal">Experiences from people focused on growth and self-improvement.</p>
+        
+        <div class="testimo-grid reveal">
+            <div class="glass-card testimo-card">
+                <div class="user-info">
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                    <div>
+                        <h4 style="font-family: var(--font-ui);">Alex T.</h4>
+                        <p style="color: var(--text-sec); font-size: 0.8rem;">Software Engineer</p>
+                    </div>
+                </div>
+                <p>"The Discipline Engine completely rewired my workflow. I doubled my output in just 3 weeks. Truly futuristic self-development."</p>
+            </div>
+            <div class="glass-card testimo-card" style="border-top-color: var(--neon-purple);">
+                <div class="user-info">
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                    <div>
+                        <h4 style="font-family: var(--font-ui);">Sarah M.</h4>
+                        <p style="color: var(--text-sec); font-size: 0.8rem;">Content Creator</p>
+                    </div>
+                </div>
+                <p>"Mr.SelfDecode's approach to dopamine control is next-level. I no longer struggle to sit down and record videos."</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="newsletter reveal">
+            <h3>Stay <span class="gradient-text">Connected</span></h3>
+            <p style="color: var(--text-sec); margin-top: 1rem;">Get updates, ideas, and future content about self-improvement and technology.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="logo" style="font-size: 2rem;">
+            <i class="fa-solid fa-brain"></i>
+            <span>Mr.Self<span class="gradient-text">Decode</span></span>
+        </div>
+        <div class="social-links">
+            <a href="https://youtube.com/@mr.selfdecode?si=msBS8eOJ1-Vp-PJv"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+            <a href="https://www.instagram.com/mr.selfdecode?igsh=djBvenhxdXc0OXA3"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.facebook.com/share/1HP89YqNwU/"><i class="fa-brands fa-facebook"></i></a>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Mr.SelfDecode by Ajaz Ahmad. All systems operational.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            let icon = menuToggle.querySelector('i');
+            if(navLinks.classList.contains('active')){
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Mouse Glow Effect (Desktop Only)
+        if(window.innerWidth > 768) {
+            const glow = document.getElementById('cursor-glow');
+            window.addEventListener('mousemove', (e) => {
+                glow.style.top = e.clientY + 'px';
+                glow.style.left = e.clientX + 'px';
+            });
+        } else {
+            document.getElementById('cursor-glow').style.display = 'none';
+        }
+
+        // Scroll Reveal Animations
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger on load
+    </script>
+</body>
+</html>
