@@ -34,32 +34,119 @@
         }
 
         /* --- Global Reset --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-main); color: var(--text-pri); font-family: var(--font-body); }
-
-        /* --- Navigation --- */
-        header {
-            position: fixed; top: 0; width: 100%; padding: 20px 5%;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; background: rgba(5, 8, 22, 0.8); backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--glass-border);
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body { 
+            background-color: var(--bg-main); 
+            color: var(--text-pri); 
+            font-family: var(--font-body); 
+            overflow-x: hidden;
+            background: radial-gradient(circle at 50% 0%, #0B1023 0%, #050816 100%);
         }
 
-        .logo { font-family: var(--font-head); font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- Navigation Bar --- */
+        header {
+            position: fixed; 
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            padding: 20px 5%;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            z-index: 1000; 
+            background: rgba(5, 8, 22, 0.8); 
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .logo { 
+            font-family: var(--font-head); 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            letter-spacing: 1px;
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+        
         .logo i { color: var(--cyan-accent); }
-        .nav-links { display: flex; gap: 2rem; font-family: var(--font-ui); }
-        .nav-links a:hover, .nav-links a.active-link { color: var(--cyan-accent); }
+        
+        .nav-links { 
+            display: flex; 
+            gap: 2rem; 
+            font-family: var(--font-ui); 
+            font-size: 0.95rem;
+        }
+        
+        .nav-links a {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active-link { 
+            color: var(--cyan-accent); 
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 2px;
+            bottom: -5px; left: 0;
+            background: var(--neon-purple);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after, .nav-links a.active-link::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-pri);
+        }
+
+        /* --- Mouse Glow Effect --- */
+        #cursor-glow {
+            position: fixed;
+            top: 0; left: 0;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: top 0.1s ease-out, left 0.1s ease-out;
+        }
 
         /* --- Contact Layout --- */
         .contact-container {
-            padding: 150px 5% 100px;
+            padding: 160px 5% 100px;
             max-width: 800px;
             margin: 0 auto;
         }
 
         .gradient-text {
-            background: linear-gradient(to right, var(--cyan-accent), var(--neon-purple));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background: linear-gradient(to right, var(--cyan-accent), var(--neon-purple), var(--electric-blue));
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         /* --- Form Styling --- */
@@ -69,44 +156,135 @@
             border: 1px solid var(--glass-border);
             border-radius: 16px;
             padding: 3rem;
+            box-shadow: var(--glass-glow);
         }
 
         .form-group { margin-bottom: 1.5rem; }
-        label { display: block; margin-bottom: 0.5rem; color: var(--text-sec); font-size: 0.9rem; }
-        input, textarea {
-            width: 100%; padding: 12px; background: #050816; border: 1px solid var(--glass-border);
-            border-radius: 8px; color: var(--text-pri); outline: none;
-            transition: border 0.3s ease;
+        
+        label { 
+            display: block; 
+            margin-bottom: 0.5rem; 
+            color: var(--text-sec); 
+            font-size: 0.9rem; 
+            font-family: var(--font-ui);
         }
-        input:focus, textarea:focus { border-color: var(--neon-purple); }
+        
+        input, textarea, select {
+            width: 100%; 
+            padding: 12px; 
+            background: #050816; 
+            border: 1px solid var(--glass-border);
+            border-radius: 8px; 
+            color: var(--text-pri); 
+            outline: none;
+            font-family: var(--font-body);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        input:focus, textarea:focus, select:focus { 
+            border-color: var(--cyan-accent); 
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.2);
+        }
 
         .btn-submit {
             background: linear-gradient(45deg, var(--neon-purple), var(--electric-blue));
-            border: none; padding: 15px 30px; border-radius: 8px;
-            color: white; font-weight: 600; cursor: pointer; width: 100%;
-            transition: transform 0.3s ease;
+            border: none; 
+            padding: 15px 30px; 
+            border-radius: 8px;
+            color: white; 
+            font-weight: 600; 
+            cursor: pointer; 
+            width: 100%;
+            font-family: var(--font-ui);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
         }
-        .btn-submit:hover { transform: translateY(-2px); }
+        
+        .btn-submit:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+        }
 
         /* --- Footer --- */
-        footer { padding: 3rem 5%; text-align: center; border-top: 1px solid var(--glass-border); }
-        .social-links { display: flex; justify-content: center; gap: 1.5rem; font-size: 1.5rem; margin-bottom: 1rem; }
-        .social-links a { color: var(--text-sec); }
+        footer { 
+            padding: 3rem 5%; 
+            text-align: center; 
+            border-top: 1px solid var(--glass-border); 
+            background: #02040a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .social-links { 
+            display: flex; 
+            justify-content: center; 
+            gap: 1.5rem; 
+            font-size: 1.5rem; 
+        }
+        
+        .social-links a { 
+            color: var(--text-sec); 
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--neon-purple);
+            transform: translateY(-3px);
+        }
+
+        /* --- Media Queries for Responsive Design --- */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                flex-direction: column;
+                background: var(--bg-main);
+                align-items: center;
+                justify-content: center;
+                transition: 0.4s ease;
+            }
+            
+            .nav-links.active { right: 0; }
+            .menu-toggle { display: block; }
+            .glass-card { padding: 2rem 1.5rem; }
+            .contact-container { padding-top: 120px; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Ambient Glow / Mouse Effect -->
+    <div id="cursor-glow"></div>
+
+    <!-- Corrected Header / Navbar Structure -->
     <header>
-        <div class="logo"><i class="fa-solid fa-brain"></i> <span>Mr.Self<span class="gradient-text">Decode</span></span></div>
-        <nav><ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="contact.html" class="active-link">Contact</a></li>
-        </ul></nav>
+        <div class="logo">
+            <i class="fa-solid fa-brain"></i>
+            <span>Mr.Self<span class="gradient-text">Decode</span></span>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="youtube.html">YouTube</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html" class="active-link">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
     </header>
 
     <div class="contact-container">
-        <h1 style="font-family: var(--font-head); margin-bottom: 1rem;">Let's <span class="gradient-text">Connect.</span></h1>
-        <p style="color: var(--text-sec); margin-bottom: 3rem;">Ready to build systems? Have a question or a partnership proposal? Send a message and let's decode the future together.</p>
+        <h1 style="font-family: var(--font-head); margin-bottom: 1rem; font-size: clamp(2.2rem, 4vw, 3rem);">Let's <span class="gradient-text">Connect.</span></h1>
+        <p style="color: var(--text-sec); margin-bottom: 3rem; font-size: 1.05rem;">Ready to build systems? Have a question or a partnership proposal? Send a message and let's decode the future together.</p>
 
         <div class="glass-card">
             <form id="contactForm">
@@ -120,7 +298,7 @@
                 </div>
                 <div class="form-group">
                     <label>Inquiry Type</label>
-                    <select style="width: 100%; padding: 12px; background: #050816; border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-pri);">
+                    <select>
                         <option>Partnership</option>
                         <option>Coaching/Mentorship</option>
                         <option>Development Project</option>
@@ -136,16 +314,51 @@
         </div>
     </div>
 
+    <!-- Sync Footer -->
     <footer>
-        <div class="social-links">
-            <a href="#"><i class="fa-brands fa-youtube"></i></a>
-            <a href="#"><i class="fa-brands fa-twitter"></i></a>
-            <a href="#"><i class="fa-brands fa-discord"></i></a>
+        <div class="logo" style="font-size: 1.8rem; margin-bottom: 0.5rem;">
+            <i class="fa-solid fa-brain"></i>
+            <span>Mr.Self<span class="gradient-text">Decode</span></span>
         </div>
-        <p style="color: var(--text-sec); font-size: 0.9rem;">&copy; 2026 Mr.SelfDecode by Ajaz Ahmad.</p>
+        <div class="social-links">
+            <a href="https://youtube.com/@mr.selfdecode?si=msBS8eOJ1-Vp-PJv"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+            <a href="https://www.instagram.com/mr.selfdecode?igsh=djBvenhxdXc0OXA3"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.facebook.com/share/1HP89YqNwU/"><i class="fa-brands fa-facebook"></i></a>
+        </div>
+        <p style="color: var(--text-sec); font-size: 0.9rem;">&copy; 2026 Mr.SelfDecode by Ajaz Ahmad. All systems operational.</p>
     </footer>
 
+    <!-- Functional Scripts -->
     <script>
+        // Mobile Menu Toggle logic
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            let icon = menuToggle.querySelector('i');
+            if(navLinks.classList.contains('active')){
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Mouse Ambient Glow Effect (Desktop Only)
+        if(window.innerWidth > 768) {
+            const glow = document.getElementById('cursor-glow');
+            window.addEventListener('mousemove', (e) => {
+                glow.style.top = e.clientY + 'px';
+                glow.style.left = e.clientX + 'px';
+            });
+        } else {
+            document.getElementById('cursor-glow').style.display = 'none';
+        }
+
+        // Form Submit Alert
         document.getElementById('contactForm').addEventListener('submit', (e) => {
             e.preventDefault();
             alert('Message received. System processing...');
