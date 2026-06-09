@@ -196,28 +196,34 @@
             margin-bottom: 5rem;
         }
 
-        .about-image {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            box-shadow: 0 0 40px rgba(139, 92, 246, 0.2);
-            aspect-ratio: 4/5;
-        }
+        /* --- INSTEAD OF OLD REVEAL/IMAGE STYLES, PASTE THIS PRECISE FIX --- */
 
-        .about-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(20%) contrast(110%);
-        }
+.about-image {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.2);
+}
 
-        .about-image::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to top, var(--bg-main), transparent);
-        }
+.about-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain; 
+    image-rendering: -webkit-optimize-contrast; 
+    image-rendering: crisp-edges;
+}
+
+.about-image::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    
+    background: linear-gradient(to top, rgba(5, 8, 22, 0.9) 0%, rgba(5, 8, 22, 0) 30%);
+    pointer-events: none;
+}
+
 
         .about-text h2 {
             font-size: 2.5rem;
